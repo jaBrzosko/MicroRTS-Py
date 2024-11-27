@@ -1,3 +1,5 @@
+import os
+import numpy as np
 from parameters import Parameters as Parameters
 from gym_microrts.envs.vec_env import MicroRTSGridModeVecEnv
 from gym_microrts import microrts_ai
@@ -56,6 +58,17 @@ def train(env: MicroRTSGridModeVecEnv, params: Parameters, agent: AbstractAgent,
         loss.backward()
         optimizer.step()
 
+        if epoch % params.save_freq == 0:
+            print(f"Saving model at epoch {epoch}")
+            os.makedirs("models", exist_ok=True)
+            torch.save(agent.state_dict(), f"models/model_{epoch}.pt")
+
+        # Print some statistics
+        print(f"Loss: {loss.item()}")
+        print(f"Rewards: {discounted_rewards.mean().item()}")
+        print(f"Log probs: {log_probs.mean().item()}")
+
+
 if __name__ == "__main__":
     params = Parameters()
 
@@ -67,7 +80,7 @@ if __name__ == "__main__":
         render_theme=2,
         ai2s=[],
         map_paths=params.maps,
-        # reward_weight=np.array([10.0, 1.0, 1.0, 0.2, 1.0, 4.0]),
+        reward_weight=np.array([10.0, 1.0, 1.0, 0.2, 1.0, 4.0]),
         # cycle_maps=args.train_maps,
     )
 

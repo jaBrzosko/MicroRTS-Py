@@ -13,3 +13,4 @@ class Parameters():
         self.maps = ["maps/8x8/basesWorkers8x8A.xml"]
         self.lr = 0.01
         self.eps = 1e-4
+        self.save_freq = 10
