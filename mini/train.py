@@ -107,7 +107,7 @@ if __name__ == "__main__":
         partial_obs=params.partial_obs,
         max_steps=2000,
         render_theme=2,
-        ai2s=[],
+        ai2s=params.ais,
         map_paths=params.maps,
         reward_weight=np.array([10.0, 1.0, 1.0, 0.2, 1.0, 4.0]),
         # cycle_maps=args.train_maps,

@@ -35,35 +35,34 @@ class PremadeAgent(AbstractAgent):
         h, w, c = envs.observation_space.shape
         self.mapsize = h * w
         self.action_nvec = envs.action_plane_space.nvec
+        action_count = sum(self.action_nvec)
 
-        self.encoder = nn.Sequential(
+        self.network = nn.Sequential(
             Transpose((0, 3, 1, 2)),
-            layer_init(nn.Conv2d(c, 32, kernel_size=3, padding=1)),
-            nn.MaxPool2d(3, stride=2, padding=1),
+            nn.Conv2d(in_channels=c, out_channels=64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
             nn.ReLU(),
-            layer_init(nn.Conv2d(32, 64, kernel_size=3, padding=1)),
-            nn.MaxPool2d(3, stride=2, padding=1),
+            nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=1),
+            nn.BatchNorm2d(128),
             nn.ReLU(),
-        )
+            nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, padding=1),
+            nn.BatchNorm2d(256),
 
-        self.actor = nn.Sequential(
-            layer_init(
-                nn.ConvTranspose2d(64, 32, 3, stride=2,
-                                   padding=1, output_padding=1)
-            ),
+            # Second convolutional block
+            nn.Conv2d(in_channels=256, out_channels=128, kernel_size=3, padding=1),
+            nn.BatchNorm2d(128),
             nn.ReLU(),
-            layer_init(
-                nn.ConvTranspose2d(32, 78, 3, stride=2,
-                                   padding=1, output_padding=1)
-            ),
+            nn.Conv2d(in_channels=128, out_channels=64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=64, out_channels=action_count, kernel_size=1),
             Transpose((0, 2, 3, 1)),
         )
 
         self.register_buffer("mask_value", torch.tensor(-1e8))
 
     def forward(self, x, invalid_action_masks=None):
-        hidden = self.encoder(x)
-        logits = self.actor(hidden)
+        logits = self.network(x)
         grid_logits = logits.reshape(-1, self.action_nvec.sum())
         split_logits = torch.split(
             grid_logits, self.action_nvec.tolist(), dim=1)
