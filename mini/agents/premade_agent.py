@@ -90,11 +90,8 @@ class PremadeAgent(AbstractAgent):
                 for a, categorical in zip(action, multi_categoricals)
             ]
         )
-        entropy = torch.stack(
-            [categorical.entropy() for categorical in multi_categoricals]
-        )
+        
         num_predicted_parameters = len(self.action_nvec)
         logprob = logprob.T.view(-1, self.mapsize, num_predicted_parameters)
-        entropy = entropy.T.view(-1, self.mapsize, num_predicted_parameters)
         action = action.T.view(-1, self.mapsize, num_predicted_parameters)
         return action, logprob.sum(1).sum(1)

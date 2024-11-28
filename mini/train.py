@@ -24,7 +24,9 @@ def train(
 
     print(f"Training for {params.epochs} epochs")
 
-    for epoch in range(params.epochs):
+    start = 0 if params.start_epoch is None else params.start_epoch
+
+    for epoch in range(start, params.epochs):
         print(f"Epoch {epoch+1}/{params.epochs}")
 
         trajectory = {"log_probs": [], "rewards": [], "dones": []}
@@ -113,6 +115,8 @@ if __name__ == "__main__":
 
     # agent = FirstAgent(env)
     agent = PremadeAgent(env).to(params.device)
+    if params.start_from_model is not None:
+        agent.load_state_dict(torch.load(params.start_from_model))
 
     optimizer = optim.Adam(agent.parameters(), lr=params.lr, eps=params.eps)
 
