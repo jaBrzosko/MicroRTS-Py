@@ -17,7 +17,7 @@ class Parameters:
         self.lr = 0.01
         self.eps = 1e-4
         self.save_freq = 25
-        self.start_from_model = "models/model_2024-11-29_11-56-23_475.pt"
+        self.start_from_model = "models/model_2024-11-29_12-45-28_1580.pt"
         self.start_epoch = 475
         self.ais = [microrts_ai.coacAI, microrts_ai.lightRushAI, microrts_ai.naiveMCTSAI, microrts_ai.workerRushAI]
 
@@ -28,8 +28,8 @@ class Parameters:
         self.torch_deterministic = False
         self.num_selfplay_envs = 2
         self.num_envs = self.num_selfplay_envs
-        self.agent_model_path = "models/model_2024-11-29_11-56-23_475.pt"
-        self.agent2_model_path = "models/model_2024-11-29_11-56-23_475.pt"
+        self.agent_model_path = "models/model_2024-11-29_12-45-28_1580.pt"
+        self.agent2_model_path = "models/model_2024-11-29_12-45-28_1580.pt"
         self.num_updates = 100
         self.num_steps = 512
         self.total_timesteps = 1000000

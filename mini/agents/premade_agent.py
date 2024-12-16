@@ -61,6 +61,11 @@ class PremadeAgent(AbstractAgent):
 
         self.register_buffer("mask_value", torch.tensor(-1e8))
 
+    def get_action_and_value(self, obs, envs=None, invalid_action_masks=None, device=None):
+        x, y = self.forward(obs, invalid_action_masks)
+        return x, y, None, None, None
+
+
     def forward(self, x, invalid_action_masks=None):
         logits = self.network(x)
         grid_logits = logits.reshape(-1, self.action_nvec.sum())
