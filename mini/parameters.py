@@ -7,7 +7,7 @@ class Parameters:
         self.epochs = 500
         self.device = torch.device(
             "cuda" if torch.cuda.is_available() else "cpu")
-        self.max_steps = 2000
+        self.max_steps = 512
         self.gamma = 0.99
         self.partial_obs = False
         self.num_selfplay_envs = 6

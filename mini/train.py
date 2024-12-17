@@ -104,6 +104,8 @@ def train_ppo(
     current_time = datetime.now()
     version_string = current_time.strftime("%Y-%m-%d_%H-%M-%S")
 
+    file_name = f"statistics_{version_string}.txt"
+
     print(f"Training for {params.epochs} epochs")
 
     start = 0 if params.start_epoch is None else params.start_epoch
@@ -223,8 +225,22 @@ def train_ppo(
 
         # Print some statistics
         print(f"Loss: {loss.item()}")
-        print(f"Log probs: {log_probs.mean().item()}")
+        print(f"Policy loss: {policy_loss.item()}")
+        print(f"Value loss: {value_loss.item()}")
+        print(f"Entropy: {entropy.mean().item()}")
+        print(f"Rewards: {returns.mean().item()}")
+        print(f"Log probs: {new_log_probs.mean().item()}")
+        print(f"Advantages: {advantages.mean().item()}")
+        print(f"Values: {vals.mean().item()}")
 
+        # Dump data to file
+        data = [loss.item(), policy_loss.item(),
+                value_loss.item(), entropy.mean().item(),
+                returns.mean().item(), new_log_probs.mean().item(),
+                advantages.mean().item(), vals.mean().item()]
+
+        with open(f"statistics/{file_name}", "a") as statistics_file:
+            statistics_file.write(";".join(map(str, data)) + "\n")
 
 if __name__ == "__main__":
     params = Parameters()
