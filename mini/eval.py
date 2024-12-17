@@ -6,7 +6,7 @@ from distutils.util import strtobool
 import numpy as np
 import torch
 from gym.spaces import MultiDiscrete
-from mini.parameters import Parameters
+from mini.parameters import EvalParameters
 from stable_baselines3.common.vec_env import VecMonitor, VecVideoRecorder
 from torch.utils.tensorboard import SummaryWriter
 
@@ -18,7 +18,7 @@ from gym_microrts.envs.vec_env import MicroRTSGridModeVecEnv
 
 
 if __name__ == "__main__":
-    args = Parameters()
+    args = EvalParameters()
 
     # TRY NOT TO MODIFY: setup the environment
     experiment_name = f"{args.gym_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         num_bot_envs=len(ais),
         num_selfplay_envs=args.num_selfplay_envs,
         partial_obs=args.partial_obs,
-        max_steps=5000,
+        max_steps=args.max_steps,
         render_theme=2,
         ai2s=ais,
         map_paths=args.maps,

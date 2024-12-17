@@ -26,7 +26,7 @@ from peewee import (
 )
 from stable_baselines3.common.vec_env import VecMonitor
 from trueskill import Rating, quality_1vs1, rate_1vs1
-from mini.eval_parameters import EvalParameters
+from mini.parameters import TournamentParameters
 
 from gym_microrts import microrts_ai  # fmt: off
 
@@ -40,7 +40,7 @@ torch.set_num_threads(1)
 
 
 
-args = EvalParameters()
+args = TournamentParameters()
 dbname = "league"
 if args.partial_obs:
     dbname = "po_league"
@@ -193,7 +193,6 @@ class Match:
 
     def run_m0(self, num_matches):
         results = []
-        16 * 16
         next_obs = torch.Tensor(self.envs.reset()).to(self.device)
         while True:
             # self.envs.render()

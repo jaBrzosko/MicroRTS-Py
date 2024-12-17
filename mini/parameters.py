@@ -35,3 +35,42 @@ class Parameters:
         self.total_timesteps = 1000000
         self.batch_size = self.num_envs * self.num_steps
         self.num_updates = self.total_timesteps // self.batch_size
+
+class EvalParameters:
+    def __init__(self):
+        self.device = torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu")
+        self.partial_obs = False
+        self.num_selfplay_envs = 8
+        self.maps = [f"maps/8x8/basesWorkers8x8{variant}.xml" for variant in "A"]#BCDEFGHIJKL"]
+
+        # self.ai = False
+        self.ai = 'lightRushAI'
+        self.gym_id = "GYMID"
+        self.exp_name = "test"
+        self.seed = 0
+        self.torch_deterministic = False
+        self.num_selfplay_envs = 2
+        self.num_envs = self.num_selfplay_envs
+        self.agent_model_path = "models/model_2024-11-29_12-45-28_1580.pt"
+        self.agent2_model_path = "models/model_2024-11-29_12-45-28_1580.pt"
+        self.num_updates = 3
+        self.num_steps = 512
+        self.max_steps = 512
+        self.total_timesteps = 1024
+
+class TournamentParameters:
+    def __init__(self):
+        self.partial_obs = False
+        self.update_db = False
+        self.cuda = True
+        self.maps = [f"maps/8x8/basesWorkers8x8{variant}.xml" for variant in "A"]
+        self.evals = [
+            "randomBiasedAI",
+            "workerRushAI",
+            "lightRushAI", 
+            "coacAI", 
+            "models/model_2024-11-29_12-45-28_1580.pt"]
+        self.num_matches = 1
+        self.highest_sigma = 1.4
+        self.output_path = 'tournament.temp.csv'
