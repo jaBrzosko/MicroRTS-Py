@@ -45,13 +45,13 @@ class EvalParameters:
         self.maps = [f"maps/8x8/basesWorkers8x8{variant}.xml" for variant in "A"]#BCDEFGHIJKL"]
 
         # self.ai = False
-        self.ai = 'lightRushAI'
+        self.ai = 'coacAI'
         self.gym_id = "GYMID"
         self.exp_name = "test"
         self.seed = 0
         self.torch_deterministic = False
-        self.num_selfplay_envs = 2
-        self.num_envs = self.num_selfplay_envs
+        self.num_selfplay_envs = 2 if not self.ai else 0
+        self.num_envs = 2
         self.agent_model_path = "models/model_2024-11-29_12-45-28_1580.pt"
         self.agent2_model_path = "models/model_2024-11-29_12-45-28_1580.pt"
         self.num_updates = 3

@@ -62,7 +62,6 @@ if __name__ == "__main__":
     )
 
     agent = PremadeAgent(envs).to(device)
-    agent2 = PremadeAgent(envs).to(device)
 
     # ALGO Logic: Storage for epoch data
     mapsize = 8 * 8
@@ -82,6 +81,7 @@ if __name__ == "__main__":
         args.agent_model_path, map_location=device))
     agent.eval()
     if not args.ai:
+        agent2 = PremadeAgent(envs).to(device)
         agent2.load_state_dict(torch.load(
             args.agent2_model_path, map_location=device))
         agent2.eval()
@@ -117,7 +117,7 @@ if __name__ == "__main__":
                     p2_mask = invalid_action_masks[1::2]
 
                     p1_action, _ = agent.forward(p1_obs, p1_mask)
-                    p2_action, _ = agent.forward(p2_obs, p2_mask)
+                    p2_action, _ = agent2.forward(p2_obs, p2_mask)
                     action = torch.zeros(
                         (args.num_envs, p2_action.shape[1], p2_action.shape[2])
                     )
