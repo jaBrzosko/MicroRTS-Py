@@ -41,27 +41,11 @@ def train_from_parameters(params):
         train(env, params, agent, optimizer)
 
 if __name__ == "__main__":
-
     params = Parameters()
-    params.num_selfplay_envs = 6
-    params.num_bot_envs = 0
-    params.ais = []
-    print("Training only selfplay")
-    train_from_parameters(params)
-
-    params = Parameters()
-    params.num_selfplay_envs = 0
-    params.num_bot_envs = 6
-    params.ais = [microrts_ai.POLightRush, microrts_ai.POWorkerRush,
-                  microrts_ai.coacAI, microrts_ai.izanagi,
-                  microrts_ai.guidedRojoA3N, microrts_ai.naiveMCTSAI]
-    print("Training only bots")
-    train_from_parameters(params)
-
-    params = Parameters()
-    params.num_selfplay_envs = 3
-    params.num_bot_envs = 3
-    params.ais = [microrts_ai.POLightRush, microrts_ai.coacAI, microrts_ai.naiveMCTSAI]
+    params.num_selfplay_envs = 4
+    params.num_bot_envs = 8
+    params.max_steps = 2048
+    params.ais = [microrts_ai.POLightRush, microrts_ai.coacAI, microrts_ai.naiveMCTSAI, microrts_ai.rojo,
+                microrts_ai.izanagi, microrts_ai.tiamat, microrts_ai.mixedBot, microrts_ai.POWorkerRush]
     print("Training selfplay and bots")
     train_from_parameters(params)
-    

@@ -24,6 +24,8 @@ def train(
     current_time = datetime.now()
     version_string = current_time.strftime("%Y-%m-%d_%H-%M-%S")
 
+    file_name = f"statistics_{version_string}.txt"
+
     print(f"Training for {params.epochs} epochs")
 
     start = 0 if params.start_epoch is None else params.start_epoch
@@ -84,7 +86,7 @@ def train(
         loss.backward()
         optimizer.step()
 
-        if epoch % params.save_freq == 0:
+        if epoch % params.save_freq == 0 or epoch == params.epochs:
             print(f"Saving model at epoch {epoch}")
             os.makedirs("models", exist_ok=True)
             torch.save(agent.state_dict(),
@@ -94,6 +96,11 @@ def train(
         print(f"Loss: {loss.item()}")
         print(f"Rewards: {discounted_rewards.mean().item()}")
         print(f"Log probs: {log_probs.mean().item()}")
+
+        data = [loss.item(), discounted_rewards.mean().item(), log_probs.mean().item()]
+
+        with open(f"statistics/{file_name}", "a") as statistics_file:
+            statistics_file.write(";".join(map(str, data)) + "\n")
 
 def train_ppo(
     env: MicroRTSGridModeVecEnv,
