@@ -26,6 +26,9 @@ def train(
 
     file_name = f"statistics_{version_string}.txt"
     
+    if not os.path.exists("statistics"):
+        os.makedirs("statistics")
+
     with open(f"statistics/{file_name}", "w") as statistics_file:
         statistics_file.write("loss;rewards;log_probs\n")
 
