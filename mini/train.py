@@ -25,6 +25,9 @@ def train(
     version_string = current_time.strftime("%Y-%m-%d_%H-%M-%S")
 
     file_name = f"statistics_{version_string}.txt"
+    
+    with open(f"statistics/{file_name}", "w") as statistics_file:
+        statistics_file.write("loss;rewards;log_probs\n")
 
     print(f"Training for {params.epochs} epochs")
 
