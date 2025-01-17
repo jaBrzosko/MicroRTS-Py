@@ -56,7 +56,7 @@ if __name__ == "__main__":
     params = Parameters()
     params.num_selfplay_envs = 4
     params.num_bot_envs = 8
-    params.max_steps = 2048
+    params.max_steps = 512
     params.ais = [microrts_ai.POLightRush, microrts_ai.coacAI, microrts_ai.naiveMCTSAI, microrts_ai.rojo,
                 microrts_ai.izanagi, microrts_ai.tiamat, microrts_ai.mixedBot, microrts_ai.POWorkerRush]
     print("Training selfplay and bots")
